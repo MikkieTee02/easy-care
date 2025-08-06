@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Care - Health Symptoms Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i> EASY CARE
+            </div>
+            <div class="subtitle">Your Trusted Health Companion</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Welcome Page -->
+        <div class="page active" id="welcome-page">
+            <h2><i class="fas fa-hand-sparkles"></i> Welcome!</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 33%"></div>
+            </div>
+            <div class="form-group">
+                <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="name" placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="age"><i class="fas fa-birthday-cake"></i> Age</label>
+                <input type="number" id="age" placeholder="Enter your age">
+            </div>
+            <div class="form-group">
+                <label for="age"><i class="fas fa-phone"></i> Phone Number</label>
+                <input type="number" id="age" placeholder="Enter your phone number">
+            </div>
+            <button class="btn" onclick="nextPage('symptoms-page')">
+                Continue <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- Symptoms Page -->
+        <div class="page" id="symptoms-page">
+            <h2><i class="fas fa-stethoscope"></i> How are you feeling?</h2>
+            <p>Please select 5 or more symptoms related to your condition</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: 66%"></div>
+            </div>
+            <div class="selected-count">
+                <i class="fas fa-check-circle"></i> Selected: <span id="symptom-count">0</span>/5
+            </div>
+            
+            <!-- General Symptoms -->
+            <div class="symptom-category">
+                <div class="category-title">
+                    <i class="fas fa-thermometer-half"></i> General Symptoms
+                </div>
+                <div class="symptoms-grid">
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-fire"></i> Fever
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-bed"></i> Fatigue
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-battery-quarter"></i> Weakness
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-icicles"></i> Chills
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-tint"></i> Night Sweats
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-weight"></i> Weight Loss
+                    </div>
+                </div>
+            </div>
+
+            <!-- Head & Neurological -->
+            <div class="symptom-category">
+                <div class="category-title">
+                    <i class="fas fa-brain"></i> Head & Neurological
+                </div>
+                <div class="symptoms-grid">
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-head-side-virus"></i> Headache
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-dizzy"></i> Dizziness
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-question-circle"></i> Confusion
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-memory"></i> Memory Loss
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-eye"></i> Blurred Vision
+                    </div>
+                    <div class="symptom-item" onclick="toggleSymptom(this)">
+                        <i class="fas fa-sun"></i> Light Sensitivity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional categories with similar structure -->
+            
+            <button class="btn" onclick="submitSymptoms()">
+                Submit Symptoms <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+
+        <!-- Results Page -->
+        <div class="page" id="results-page">
+            <div class="progress-bar">
+                <div class="progress" style="width: 100%"></div>
+            </div>
+            <div class="results">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Successful Entry</h2>
+                <p>We've received your symptoms and are processing your information.</p>
+                <p>Our medical team will contact you shortly.</p>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Need assistance? Contact us:</p>
+            <p><i class="fas fa-envelope"></i> info@easycare.co.zw</p>
+        </footer>
+    </div>
+
+    <script>
+        function nextPage(pageId) {
+            if (pageId === 'symptoms-page') {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                if (!name || !age) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+            }
+
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleSymptom(element) {
+            element.classList.toggle('selected');
+            updateSymptomCount();
+        }
+
+        function updateSymptomCount() {
+            const selectedCount = document.querySelectorAll('.symptom-item.selected').length;
+            document.getElementById('symptom-count').textContent = selectedCount;
+        }
+
+        function submitSymptoms() {
+            const selectedSymptoms = document.querySelectorAll('.symptom-item.selected');
+            if (selectedSymptoms.length < 5) {
+                alert('Please select at least 5 symptoms');
+                return;
+            }
+            nextPage('results-page');
+        }
+    </script>
+</body>
+</html>
